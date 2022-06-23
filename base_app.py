@@ -53,7 +53,8 @@ def main():
 	if selection == "Information":
 		st.info("General Information")
 		# You can read a markdown file from supporting resources folder
-		st.markdown("Some information here")
+		#st.markdown("Some information here")
+		st.write("Climate change is an urgent global issue, with demands for personal, collective, and governmental action. Although a large body of research has investigated the influence of communication on public engagement with climate change, few studies have investigated the role of interpersonal discussion. continue reading here: [link](https://www.pnas.org/doi/10.1073/pnas.1906589116)")
 
 		st.subheader("Raw Twitter data and label")
 		if st.checkbox('Show raw data'): # data is hidden if box is unchecked
