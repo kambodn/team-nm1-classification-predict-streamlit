@@ -24,7 +24,7 @@
 # Streamlit dependencies
 import streamlit as st
 import joblib,os
-
+from PIL import Image
 # Data dependencies
 import pandas as pd
 
@@ -41,21 +41,24 @@ def main():
 
 	# Creates a main title and subheader on your page -
 	# these are static across all pages
+	#image =Image.open ('./plots/Workflow.jpg')
+	#st.image(image, caption= 'sunrise')
 	st.title("Tweet Classifer")
 	st.subheader("Climate change tweet classification")
 
 	# Creating sidebar with selection box -
 	# you can create multiple pages this way
-	options = ["Prediction", "Information"]
+	options = ["General Information", "Prediction", "Conclusion"]
 	selection = st.sidebar.selectbox("Choose Option", options)
 
 	# Building out the "Information" page
-	if selection == "Information":
-		st.info("General Information")
+	if selection == "General Information":
+		
+		st.write("Climate change is an urgent global issue, with demands for personal, collective, and governmental action. Although a large body of research has investigated the influence of communication on public engagement with climate change, few studies have investigated the role of interpersonal discussion. To continue reading here: [link](https://www.pnas.org/doi/10.1073/pnas.1906589116)")
+		st.write("This app is designed to give predictions on the perception or sentiment of the public towards the subject of climate change. Social media being a platform for mass communication is used as a harvest feild to understand how people percieve this to be a problem and shows us how likely solutions are going to be accepted. The platform of reach here is tweeter, and to the top left corner is a drop down to access predictions.\nCheck the box below to see the raw data.")
+		#st.subheader("General Information" )
 		# You can read a markdown file from supporting resources folder
 		#st.markdown("Some information here")
-		st.write("Climate change is an urgent global issue, with demands for personal, collective, and governmental action. Although a large body of research has investigated the influence of communication on public engagement with climate change, few studies have investigated the role of interpersonal discussion. continue reading here: [link](https://www.pnas.org/doi/10.1073/pnas.1906589116)")
-
 		st.subheader("Raw Twitter data and label")
 		if st.checkbox('Show raw data'): # data is hidden if box is unchecked
 			st.write(raw[['sentiment', 'message']]) # will write the df to the page
