@@ -24,9 +24,15 @@
 # Streamlit dependencies
 import streamlit as st
 import joblib,os
-
+from PIL import Image
+#from streamlit_option_menu import option_menu
 # Data dependencies
 import pandas as pd
+from matplotlib import pyplot as plt
+import seaborn as sns
+
+# Customise our plotting settings
+sns.set_style('whitegrid')
 
 # Vectorizer
 news_vectorizer = open("resources/tfidfvect.pkl","rb")
@@ -46,37 +52,83 @@ def main():
 
 	# Creating sidebar with selection box -
 	# you can create multiple pages this way
-	options = ["Prediction", "Information"]
-	selection = st.sidebar.selectbox("Choose Option", options)
-
+	options  = ["General Information", "Prediction", "About Us"]
+	selected = st.sidebar.selectbox("Navigation", options)
+	
 	# Building out the "Information" page
-	if selection == "Information":
-		st.info("General Information")
+	if selected == "General Information":
+		image =Image.open ('C:/Users/USER/Pictures/johh/tweeter.jpg')
+		st.image(image, use_column_width='always')
+		st.write("Climate change is an urgent global issue, with demands for personal, collective, and governmental action. Although a large body of research has investigated the influence of communication on public engagement with climate change, few studies have investigated the role of interpersonal discussion. To continue reading here: [link](https://www.pnas.org/doi/10.1073/pnas.1906589116)")
+		st.write("This app is designed to give predictions on the perception or sentiment of the public towards the subject of climate change. Social media being a platform for mass communication is used as a harvest feild to understand how people percieve this to be a problem and shows us how likely solutions are going to be accepted. The platform of reach here is tweeter, and to the top left corner is a drop down to access predictions.\nCheck the box below to see the raw data.")
+		#st.subheader("General Information" )
 		# You can read a markdown file from supporting resources folder
-		st.markdown("Some information here")
-
+		#st.markdown("Some information here")
 		st.subheader("Raw Twitter data and label")
 		if st.checkbox('Show raw data'): # data is hidden if box is unchecked
 			st.write(raw[['sentiment', 'message']]) # will write the df to the page
+		
+		st.write("The above data have been labelled and each tweet divided to any of this four classes based on thier content")
+		
+		st.write("2 News: the tweet links to factual news about climate change")
+		st.write("1 Pro: the tweet supports the belief of man-made climate change")
+		st.write("0 Neutral: the tweet neither supports nor refutes the belief of man-made climate change")
+		st.write("-1 Anti: the tweet does not believe in man-made climate change")
+		
+		st.write ("Below is a graphical representation of the distribution of these classes accross the whole data")
+		f, ax = plt.subplots(figsize=(8, 4))
+		ax = sns.countplot(x="sentiment", data= raw)
+		st.pyplot(f)
 
 	# Building out the predication page
-	if selection == "Prediction":
-		st.info("Prediction with ML Models")
+	if selected == "Prediction":
+		image =Image.open ('C:/Users/USER/Pictures/johh/anime.jpg')
+		st.image(image, width = 500)
+		#st.info("Prediction with ML Models")
 		# Creating a text box for user input
-		tweet_text = st.text_area("Enter Text","Type Here")
+		tweet_text = st.text_area("Hey you, Let me show you my predictive power. Drop a Tweet in the box below:","Type Here")
+		options = ["Logistic Regression", "Mulitnomial Naive Bayes", "Superlearner"]
+		Model = st.selectbox("Choose a Model", options, index = 0)
+		if Model == "Logistic Regression":
+			if st.button("Classify"):
+				# Transforming user input with vectorizer
+				vect_text = tweet_cv.transform([tweet_text]).toarray()
+				# Load your .pkl file with the model of your choice + make predictions
+				# Try loading in multiple models to give the user a choice
+				#predictor = joblib.load(open(os.path.join("resources/Logistic_regression.pkl"),"rb"))
+				#prediction = predictor.predict(vect_text)
 
-		if st.button("Classify"):
-			# Transforming user input with vectorizer
-			vect_text = tweet_cv.transform([tweet_text]).toarray()
-			# Load your .pkl file with the model of your choice + make predictions
-			# Try loading in multiple models to give the user a choice
-			predictor = joblib.load(open(os.path.join("resources/Logistic_regression.pkl"),"rb"))
-			prediction = predictor.predict(vect_text)
+				# When model has successfully run, will print prediction
+				# You can use a dictionary or similar structure to make this output
+				# more human interpretable.
+				#st.success("Text Categorized as: {}".format(prediction))
+		elif Model == "Mulitnomial Naive Bayes":
+			if st.button("Classify"):
+				# Transforming user input with vectorizer
+				vect_text = tweet_cv.transform([tweet_text]).toarray()
+				# Load your .pkl file with the model of your choice + make predictions
+				# Try loading in multiple models to give the user a choice
+				#predictor = joblib.load(open(os.path.join("resources/Logistic_regression.pkl"),"rb"))
+				#prediction = predictor.predict(vect_text)
 
-			# When model has successfully run, will print prediction
-			# You can use a dictionary or similar structure to make this output
-			# more human interpretable.
-			st.success("Text Categorized as: {}".format(prediction))
+				# When model has successfully run, will print prediction
+				# You can use a dictionary or similar structure to make this output
+				# more human interpretable.
+				#st.success("Text Categorized as: {}".format(prediction))
+		elif Model == "Superlearner":
+			if st.button("Classify"):
+				# Transforming user input with vectorizer
+				vect_text = tweet_cv.transform([tweet_text]).toarray()
+				# Load your .pkl file with the model of your choice + make predictions
+				# Try loading in multiple models to give the user a choice
+				#predictor = joblib.load(open(os.path.join("resources/Logistic_regression.pkl"),"rb"))
+				#prediction = predictor.predict(vect_text)
+
+				# When model has successfully run, will print prediction
+				# You can use a dictionary or similar structure to make this output
+				# more human interpretable.
+				#st.success("Text Categorized as: {}".format(prediction))
+
 
 # Required to let Streamlit instantiate our web app.  
 if __name__ == '__main__':
