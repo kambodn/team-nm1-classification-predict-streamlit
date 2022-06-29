@@ -152,79 +152,26 @@ def main():
 		#st.info("Prediction with ML Models")
 		# Creating a text box for user input
 		tweet_text = st.text_area("Hey you, Let me show you my predictive power. Drop a Tweet in the box below:","Type Here")
-		options = ["Logistic Regression", "Mulitnomial Naive Bayes", "Random Forest Classifier", "Linear Support Vector Classifier"]
-		Model = st.selectbox("Choose a Model", options, index = 0)
-		if Model == "Logistic Regression":
-			if st.button("Classify"):
-				# change text to df 
-				text_df = pd.DataFrame([tweet_text])			
-				#removes all web url(s) and replaces them with the string 'url-web'
-				pattern_url = r'http[s]?://(?:[A-Za-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9A-Fa-f][0-9A-Fa-f]))+'
-				subs_url = r'url-web'
-				text_df = text_df.replace(to_replace = pattern_url, value = subs_url, regex = True)
+		
+		if st.button("Classify"):
+			# Transforming user input with vectorizer
+			vect_text = tweet_vect.transform([tweet_text])
+			# Load your .pkl file with the model of your choice + make predictions
+			# Try loading in multiple models to give the user a choice
+			predictor = joblib.load(open(os.path.join("log_reg_model.pkl"),"rb"))
+			prediction = predictor.predict(vect_text)
 
-				#remove all RT
-				pattern_rt = r'(^|\s+)RT(\s+|:)'
-				subs_rt = r''
-				text_df = text_df.replace(to_replace = pattern_rt, value = subs_rt, regex = True)
+			# When model has successfully run, will print prediction
+			# You can use a dictionary or similar structure to make this output
+			# more human interpretable.
+			output = {
+				2: 'News',
+				1: 'Pro-climate change',
+				0: 'Neutral',
+				-1: 'Anti-climate change'
+			}
+			st.success(f"This Text is Categorized as: {output[int(prediction)]}")
 
-				# Transforming user input with vectorizer
-				vect_text = tweet_vect.transform(text_df)
-				# Load your .pkl file with the model of your choice + make predictions
-				# Try loading in multiple models to give the user a choice
-				predictor = joblib.load(open(os.path.join("log_reg_model.pkl"),"rb"))
-				prediction = predictor.predict(vect_text)
-
-				# When model has successfully run, will print prediction
-				# You can use a dictionary or similar structure to make this output
-				# more human interpretable.
-				output = {
-					2: 'News',
-					1: 'Pro-climate change',
-					0: 'Neutral',
-					-1: 'Anti-climate change',
-				}
-				st.success("This Text is Categorized as: {}".format(prediction))
-		elif Model == "Mulitnomial Naive Bayes":
-			if st.button("Classify"):
-				# Transforming user input with vectorizer
-				vect_text = tweet_cv.transform([tweet_text]).toarray()
-				# Load your .pkl file with the model of your choice + make predictions
-				# Try loading in multiple models to give the user a choice
-				#predictor = joblib.load(open(os.path.join("resources/Logistic_regression.pkl"),"rb"))
-				#prediction = predictor.predict(vect_text)
-
-				# When model has successfully run, will print prediction
-				# You can use a dictionary or similar structure to make this output
-				# more human interpretable.
-				#st.success("Text Categorized as: {}".format(prediction))
-		elif Model == "Random Forest Classifier":
-			if st.button("Classify"):
-				# Transforming user input with vectorizer
-				vect_text = tweet_cv.transform([tweet_text]).toarray()
-				# Load your .pkl file with the model of your choice + make predictions
-				# Try loading in multiple models to give the user a choice
-				#predictor = joblib.load(open(os.path.join("resources/Logistic_regression.pkl"),"rb"))
-				#prediction = predictor.predict(vect_text)
-
-				# When model has successfully run, will print prediction
-				# You can use a dictionary or similar structure to make this output
-				# more human interpretable.
-				#st.success("Text Categorized as: {}".format(prediction))
-		elif Model == "Linear Support Vector Classifier":
-			if st.button("Classify"):
-				# Transforming user input with vectorizer
-				vect_text = tweet_cv.transform([tweet_text]).toarray()
-				# Load your .pkl file with the model of your choice + make predictions
-				# Try loading in multiple models to give the user a choice
-				#predictor = joblib.load(open(os.path.join("resources/Logistic_regression.pkl"),"rb"))
-				#prediction = predictor.predict(vect_text)
-
-				# When model has successfully run, will print prediction
-				# You can use a dictionary or similar structure to make this output
-				# more human interpretable.
-				#st.success("Text Categorized as: {}".format(prediction))
-	
 	# Building out the predication page
 	if selected == "About Us":
 		st.title("DataFluent Inc.")
