@@ -41,8 +41,8 @@ sns.set_style('whitegrid')
 
 
 # Vectorizer
-news_vectorizer = open("resources/tfidfvect.pkl","rb")
-tweet_cv = joblib.load(news_vectorizer) # loading your vectorizer from the pkl file
+news_vectorizer = open("resources/vectorizer.pkl","rb")
+tweet_vect = joblib.load(news_vectorizer) # loading your vectorizer from the pkl file
 
 # Load your raw data
 raw = pd.read_csv("resources/train.csv")
@@ -64,8 +64,8 @@ def main():
 	if selected == "General Information":
 		st.title("DataFluent Tweet Classifier")
 		st.subheader("Climate change tweet classification")
-		image =Image.open ('C:/Users/USER/Pictures/johh/analy 2.jpg')
-		st.image(image, use_column_width = True)
+		image =Image.open #('C:/Users/USER/Pictures/johh/analy 2.jpg')
+		#st.image(image, use_column_width = True)
 		st.write("Climate change is an urgent global issue, with demands for personal, collective, and governmental action. Although a large body of research has investigated the influence of communication on public engagement with climate change, few studies have investigated the role of interpersonal discussion. To continue reading here: [link](https://www.pnas.org/doi/10.1073/pnas.1906589116)")
 		st.write("This app is designed to give predictions on the perception or sentiment of the public towards the subject of climate change. Social media being a platform for mass communication is used as a harvest feild to understand how people percieve this to be a problem and shows us how likely solutions are going to be accepted. The platform of reach here is tweeter, and to the top left corner is a drop down to access predictions.\nCheck the box below to see the raw data.")
 		#st.subheader("General Information" )
@@ -147,8 +147,8 @@ def main():
 	# Building out the predication page
 	if selected == "Prediction":
 		st.title("Sentiment Analysis")
-		image =Image.open ('C:/Users/USER/Pictures/johh/anime.jpg')
-		st.image(image, width = 500)
+		image =Image.open #('C:/Users/USER/Pictures/johh/anime.jpg')
+		#st.image(image, width = 500)
 		#st.info("Prediction with ML Models")
 		# Creating a text box for user input
 		tweet_text = st.text_area("Hey you, Let me show you my predictive power. Drop a Tweet in the box below:","Type Here")
@@ -156,17 +156,34 @@ def main():
 		Model = st.selectbox("Choose a Model", options, index = 0)
 		if Model == "Logistic Regression":
 			if st.button("Classify"):
+				# change text to df 
+				text_df = pd.DataFrame([tweet_text])			
+				#removes all web url(s) and replaces them with the string 'url-web'
+				pattern_url = r'http[s]?://(?:[A-Za-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9A-Fa-f][0-9A-Fa-f]))+'
+				subs_url = r'url-web'
+				text_df = text_df.replace(to_replace = pattern_url, value = subs_url, regex = True)
+
+				#remove all RT
+				pattern_rt = r'(^|\s+)RT(\s+|:)'
+				subs_rt = r''
+				text_df = text_df.replace(to_replace = pattern_rt, value = subs_rt, regex = True)
+
 				# Transforming user input with vectorizer
-			
-				vect_text = tweet_cv.transform([train['message']]).toarray()
+				vect_text = tweet_vect.transform(text_df)
 				# Load your .pkl file with the model of your choice + make predictions
 				# Try loading in multiple models to give the user a choice
-				predictor = joblib.load(open(os.path.join("mlr_model.pkl"),"rb"))
+				predictor = joblib.load(open(os.path.join("log_reg_model.pkl"),"rb"))
 				prediction = predictor.predict(vect_text)
 
 				# When model has successfully run, will print prediction
 				# You can use a dictionary or similar structure to make this output
 				# more human interpretable.
+				output = {
+					2: 'News',
+					1: 'Pro-climate change',
+					0: 'Neutral',
+					-1: 'Anti-climate change',
+				}
 				st.success("This Text is Categorized as: {}".format(prediction))
 		elif Model == "Mulitnomial Naive Bayes":
 			if st.button("Classify"):
