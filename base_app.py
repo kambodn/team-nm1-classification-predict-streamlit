@@ -64,9 +64,10 @@ def main():
 	if selected == "General Information":
 		st.title("DataFluent Tweet Classifier")
 		st.subheader("Climate change tweet classification")
-		image =Image.open #('C:/Users/USER/Pictures/johh/analy 2.jpg')
-		#st.image(image, use_column_width = True)
+		#image =Image.open ('C:/Users/USER/Pictures/johh/analy 2.jpg')
+		st.image("http://www.noaa.gov/sites/default/files/styles/landscape_width_1275/public/2022-03/PHOTO-Climate-Collage-Diagonal-Design-NOAA-Communications-NO-NOAA-Logo.jpg")
 		st.write("Climate change is an urgent global issue, with demands for personal, collective, and governmental action. Although a large body of research has investigated the influence of communication on public engagement with climate change, few studies have investigated the role of interpersonal discussion. To continue reading here: [link](https://www.pnas.org/doi/10.1073/pnas.1906589116)")
+		st.markdown('#')
 		st.write("This app is designed to give predictions on the perception or sentiment of the public towards the subject of climate change. Social media being a platform for mass communication is used as a harvest feild to understand how people percieve this to be a problem and shows us how likely solutions are going to be accepted. The platform of reach here is tweeter, and to the top left corner is a drop down to access predictions.\nCheck the box below to see the raw data.")
 		#st.subheader("General Information" )
 		# You can read a markdown file from supporting resources folder
@@ -135,8 +136,8 @@ def main():
 			st.pyplot(t)
 			st.markdown ('#')
 			st.write ('Yes you guessed right')
-			image =Image.open ('C:/Users/USER/Pictures/johh/Trump.jpg')
-			st.image(image, width = 400)
+			#image =Image.open ('')
+			st.image("https://www.toonpool.com/user/27740/files/trump_and_the_climate_change_2986815.jpg")
 		
 	def remove_punctuation(text):
 		string2 = ''.join([l for l in text if l not in string.punctuation])
@@ -147,11 +148,11 @@ def main():
 	# Building out the predication page
 	if selected == "Prediction":
 		st.title("Sentiment Analysis")
-		image =Image.open #('C:/Users/USER/Pictures/johh/anime.jpg')
-		#st.image(image, width = 500)
-		#st.info("Prediction with ML Models")
+		#image =Image.open ('C:/Users/USER/Pictures/johh/anime.jpg')
+		st.image("https://netbasequid.com/wp-content/uploads/Social-Sentiment-Analysis.jpg")
+		st.info("Prediction with ML Models")
 		# Creating a text box for user input
-		tweet_text = st.text_area("Hey you, Let me show you my predictive power. Drop a Tweet in the box below:","Type Here")
+		tweet_text = st.text_area("Lets see how this model works:","Type Here")
 		
 		if st.button("Classify"):
 			# Transforming user input with vectorizer
