@@ -183,7 +183,7 @@ def main():
 		st.title("DataFluent Inc.")
 		st.subheader (" Who are we?")
 		st.write ('DataFluent is a Machine learning and A.I solutions service provider bordering on exploiting data to solve climate change related problems for clients all over the globe. Data is the life, and as such we dive into the unseen and unharnessed vastness of its universe to seek answers to problems that threaten our world.')
-		
+		st.subheader("Meet Our Team")
 		col1, col2, col3 = st.columns(3)
 
 		with col1:
