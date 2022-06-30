@@ -57,16 +57,24 @@ def main():
 
 	# Creating sidebar with selection box -
 	# you can create multiple pages this way
-	options  = ["General Information", "Prediction", "About Us"]
+	options  = ["General Information", "Data Exploration and Analysis", "Prediction", "About Us"]
 	selected = st.sidebar.selectbox("Navigation", options)
 	
 	# Building out the "Information" page
 	if selected == "General Information":
 		st.title("DataFluent Tweet Classifier")
 		st.subheader("Climate change tweet classification")
-		#image =Image.open ('C:/Users/USER/Pictures/johh/analy 2.jpg')
 		st.image("http://www.noaa.gov/sites/default/files/styles/landscape_width_1275/public/2022-03/PHOTO-Climate-Collage-Diagonal-Design-NOAA-Communications-NO-NOAA-Logo.jpg")
 		st.write("Climate change is an urgent global issue, with demands for personal, collective, and governmental action. Although a large body of research has investigated the influence of communication on public engagement with climate change, few studies have investigated the role of interpersonal discussion. To continue reading here: [link](https://www.pnas.org/doi/10.1073/pnas.1906589116)")
+		st.subheader("Sentiments by Country")
+		st.write("Senitments around climate change vary from country to country based on widespread information on the subject, the socio-political inclination of the country, Economic development and Literacy levels. The checkbox can be used to see the dominant sentiments accross some countries of the world.")
+		st.image ('https://d25d2506sfb94s.cloudfront.net/cumulus_uploads/inlineimage/2019-09-13/Chart%201-US-01.png', width = 600)
+
+		#https://www.worldatlas.com/r/w960-q80/upload/bb/a5/20/shutterstock-271128437.jpg
+	if selected == "Data Exploration and Analysis":	
+		st.title("Data Exploration and Analysis")
+		st.subheader("Taking a look at all tweets and Hashtags")
+		st.image('https://www.maxqda.com/wp/wp-content/uploads/sites/2/Blog-Twitter2-1024x538.png')
 		st.markdown('#')
 		st.write("This app is designed to give predictions on the perception or sentiment of the public towards the subject of climate change. Social media being a platform for mass communication is used as a harvest feild to understand how people percieve this to be a problem and shows us how likely solutions are going to be accepted. The platform of reach here is tweeter, and to the top left corner is a drop down to access predictions.\nCheck the box below to see the raw data.")
 		#st.subheader("General Information" )
@@ -82,14 +90,11 @@ def main():
 		st.write("1 Pro: the tweet supports the belief of man-made climate change")
 		st.write("0 Neutral: the tweet neither supports nor refutes the belief of man-made climate change")
 		st.write("-1 Anti: the tweet does not believe in man-made climate change")
-		
+		st.markdown('#')
 		st.write ("Below is a graphical representation of the distribution of these classes accross the whole data")
 		f, ax = plt.subplots(figsize=(8, 4))
 		ax = sns.countplot(x="sentiment", data= raw)
 		st.pyplot(f)
-		st.markdown('#')
-		
-
 
 
 		def hashtag_extract(tweets):
@@ -121,24 +126,24 @@ def main():
 		freq_df1 = pd.DataFrame({'hashtags':freq1.keys(),
 						'counts':freq1.values()})
 		# Display the top 10 frequent hashtags
-		st.markdown('##')
+		st.markdown('#')
 		st.subheader("The HashTags")
 		st.write('Considering the various Hashtags that trended on tweeter regarding climate change, we can have a view of the inclination of people towards being pro-climate and anti-climate change')
-		if st.checkbox('Show plot of Pro-Climate hashtags'):
-			freq_df = freq_df.nlargest(columns='counts', n=10)
-			g = plt.figure(figsize=(15,10))
-			sns.barplot(data=freq_df, x='hashtags',y='counts')
-			st.pyplot(g)
-		if st.checkbox('Show plot of Anti-Climate hashtags'):
-			freq_df1 = freq_df1.nlargest(columns='counts', n=10)
-			t = plt.figure(figsize=(15,10))
-			sns.barplot(data=freq_df1, x='hashtags',y='counts')
-			st.pyplot(t)
-			st.markdown ('#')
-			st.write ('Yes you guessed right')
-			#image =Image.open ('')
+		st.write('Show plot of Pro-Climate hashtags')
+		freq_df = freq_df.nlargest(columns='counts', n=10)
+		g = plt.figure(figsize=(10,5))
+		sns.barplot(data=freq_df, x='hashtags',y='counts')
+		st.pyplot(g)
+		st.markdown('#')
+		st.write('Show plot of Anti-Climate hashtags')
+		freq_df1 = freq_df1.nlargest(columns='counts', n=10)
+		t = plt.figure(figsize=(10,5))
+		sns.barplot(data=freq_df1, x='hashtags',y='counts')
+		st.pyplot(t)
+		#image =Image.open ('')
+		if st.checkbox ("Can you check this out?"):
 			st.image("https://www.toonpool.com/user/27740/files/trump_and_the_climate_change_2986815.jpg")
-		
+			st.write( 'Yep, you know who')
 	def remove_punctuation(text):
 		string2 = ''.join([l for l in text if l not in string.punctuation])
 		return string2
@@ -178,25 +183,30 @@ def main():
 		st.title("DataFluent Inc.")
 		st.subheader (" Who are we?")
 		st.write ('DataFluent is a Machine learning and A.I solutions service provider bordering on exploiting data to solve climate change related problems for clients all over the globe. Data is the life, and as such we dive into the unseen and unharnessed vastness of its universe to seek answers to problems that threaten our world.')
-		col1, col2 = st.columns(2)
+		
+		col1, col2, col3 = st.columns(3)
 
 		with col1:
-			st.subheader("Our Team")
-			st.write("Chibuike")
-			st.write("David  ")
-			st.write("John")
-			st.write("Rabe")
-			st.write("Endurance")
-
+			st.image("https://cdn.discordapp.com/attachments/986578789431672892/991953630020255764/gt3.jpg", width = 200)
+			st.write ('Godwin, Team Lead')
 		with col2:
-			st.subheader("Designation")
-			st.write(" Team Lead")
-			st.write("Tech Lead")
-			st.write("App Deployment")
-			st.write("Admin")
-			st.write("Comet version")
+			st.image("https://media.discordapp.net/attachments/986578789431672892/991953475749548164/kambo.jpg", width = 200)
+			st.write ('David, Tech Lead')
+		with col3:
+			st.image("https://cdn.discordapp.com/attachments/986578789431672892/992184796753186926/WhatsApp_Image_2022-06-30_at_8.48.54_PM_1.jpeg", width = 180)
+			st.write ('Rabe, Admin Lead')
 
+		col1, col2, col3 = st.columns(3)
 
+		with col1:
+			st.image("https://cdn.discordapp.com/attachments/986578789431672892/992184796426027100/WhatsApp_Image_2022-06-30_at_8.48.54_PM_2.jpeg", width = 200)
+			st.write ('John, App Dev.')
+		with col2:
+			st.image("https://cdn.discordapp.com/attachments/986578789431672892/991953374092206180/Peter.jpg", width = 200)
+			st.write ('Peter, Sr. Data Scientist')
+		with col3:
+			st.image("https://cdn.discordapp.com/attachments/986578789431672892/992187396034666586/WhatsApp_Image_2022-06-30_at_8.48.53_PM.jpeg", width = 180)
+			st.write ('Endurance, Sr. Data Scientist')
 
 # Required to let Streamlit instantiate our web app.  
 if __name__ == '__main__':
