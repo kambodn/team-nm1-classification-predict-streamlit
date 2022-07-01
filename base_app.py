@@ -118,30 +118,32 @@ def main():
 		pro_climate = sum(pro_climate, [])
 		anti_climate = sum(anti_climate, [])
 
-		freq = FreqDist(pro_climate)
-		freq_df = pd.DataFrame({'hashtags':freq.keys(),
-							'counts':freq.values()})
 
-		freq1 = FreqDist(anti_climate)
-		freq_df1 = pd.DataFrame({'hashtags':freq1.keys(),
-						'counts':freq1.values()})
+
+		# freq = FreqDist(pro_climate)
+		# freq_df = pd.DataFrame({'hashtags':freq.keys(),
+		# 					'counts':int(freq.values())})
+
+		# freq1 = FreqDist(anti_climate)
+		# freq_df1 = pd.DataFrame({'hashtags':freq1.keys(),
+		# 				'counts':int(freq1.values())})
 		# Display the top 10 frequent hashtags
 		st.markdown('#')
 		st.subheader("The HashTags")
 		st.write('Considering the various Hashtags that trended on tweeter regarding climate change, we can have a view of the inclination of people towards being pro-climate and anti-climate change')
 		st.write('Show plot of Pro-Climate hashtags')
-		freq_df['counts'] = freq_df['counts'].astype(float)
-		freq_df = freq_df.nlargest(columns='counts', n=10)
-		g = plt.figure(figsize=(15,5))
-		sns.barplot(data=freq_df, x='hashtags',y='counts')
-		st.pyplot(g)
+		st.image('pro.png')
+		# freq_df = freq_df.nlargest(columns='counts', n=10)
+		# g = plt.figure(figsize=(15,5))
+		# sns.barplot(data=freq_df, x='hashtags',y='counts')
+		# st.pyplot(g)
 		st.markdown('#')
 		st.write('Show plot of Anti-Climate hashtags')
-		freq_df1['counts'] = freq_df1['counts'].astype(float)
-		freq_df1 = freq_df1.nlargest(columns='counts', n=10)
-		t = plt.figure(figsize=(10,5))
-		sns.barplot(data=freq_df1, x='hashtags',y='counts')
-		st.pyplot(t)
+		st.image('pro.png')
+		# freq_df1 = freq_df1.nlargest(columns='counts', n=10)
+		# t = plt.figure(figsize=(10,5))
+		# sns.barplot(data=freq_df1, x='hashtags',y='counts')
+		# st.pyplot(t)
 		#image =Image.open ('')
 		if st.checkbox ("Can you check this out?"):
 			st.image("https://www.toonpool.com/user/27740/files/trump_and_the_climate_change_2986815.jpg")
